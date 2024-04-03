@@ -20,7 +20,7 @@ class ToDO extends StatelessWidget {
       height: 100,
       margin: EdgeInsets.all(15),
       decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(12)),
+          color: Colors.blueAccent, borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
           Checkbox(
@@ -29,7 +29,12 @@ class ToDO extends StatelessWidget {
             activeColor: Colors.black,
           ),
           SizedBox(width: 12),
-          Text(task, style: TextStyle(color: Colors.white))
+          Text(task,
+              style: TextStyle(
+                  color: Colors.white,
+                  decoration: completed
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none))
         ],
       ),
     );
