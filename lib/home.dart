@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'todo.dart';
@@ -11,11 +11,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List values = [
-    ["Study Flutter", false],
-    ["Solve leetcode", false],
-    ["Do Assignments", false]
-  ];
+  List values = [];
 
   TextEditingController taskController = TextEditingController();
   void onChanged(bool? value, int index) {
@@ -50,16 +46,24 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          onPressed: () {
+                        onPressed: () {
+                          if (taskController.text != "") {
                             setState(() {
                               values.add([taskController.text, false]);
                               Navigator.pop(context);
                               taskController.clear();
                             });
-                          },
-                          child: Text("Save"),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green)),
+                          }
+                        },
+                        child: Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(0))),
+                      ),
                       SizedBox(width: 10),
                       ElevatedButton(
                           onPressed: () {
@@ -67,9 +71,12 @@ class _HomeState extends State<Home> {
                               Navigator.pop(context);
                             });
                           },
-                          child: Text("Cancel"),
+                          child: Text("Cancel",
+                              style: TextStyle(color: Colors.white)),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red)),
+                              backgroundColor: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0)))),
                     ],
                   )
                 ],
@@ -77,6 +84,12 @@ class _HomeState extends State<Home> {
             ),
           );
         });
+  }
+
+  void delete(index) {
+    setState(() {
+      values.remove(values[index]);
+    });
   }
 
   @override
@@ -92,10 +105,11 @@ class _HomeState extends State<Home> {
           itemCount: values.length,
           itemBuilder: (context, index) {
             return ToDO(values[index][0], values[index][1],
-                (value) => onChanged(value, index));
+                (value) => onChanged(value, index), () => delete(index));
           }),
       floatingActionButton: FloatingActionButton(
           onPressed: create,
+          shape: CircleBorder(),
           backgroundColor: Colors.blue,
           tooltip: "Add a new task",
           child: Icon(Icons.add, color: Colors.white)),
